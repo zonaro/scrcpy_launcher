@@ -1,0 +1,13 @@
+{
+  "scrcpyPath": "C:/caminho/para/scrcpy/scrcpy.exe",
+  "videoBitrate": "8M",
+  "maxSize": "1024",
+  "alwaysOnTop": false,
+  "fullscreen": false,
+  "showTouches": true,
+  "noControl": false,
+  "orientation": "0",
+  "scrcpy_installed_version": "2.4",
+  "scrcpy_install_path": "C:/caminho/para/scrcpy/scrcpy.exe",
+  "scrcpy_profiles": "[{\"name\":\"Perfil Teste\",\"scrcpyPath\":\"C:/caminho/para/scrcpy/scrcpy.exe\",\"videoBitrate\":\"8M\",\"maxSize\":\"1024\",\"alwaysOnTop\":true,\"fullscreen\":false,\"showTouches\":true,\"noControl\":false,\"orientation\":\"90\"}]"
+}
