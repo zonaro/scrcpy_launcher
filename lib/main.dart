@@ -1429,41 +1429,11 @@ class _ScrcpyLauncherPageState extends State<ScrcpyLauncherPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Iniciando scrcpy...')),
         );
-        
-        if (Platform.isWindows) {
-          // No Windows, usar PowerShell para iniciar o processo sem mostrar janela
-          final psCommand = '''
-Start-Process -FilePath "$path" -ArgumentList "${args.map((arg) => arg.contains(' ') ? '"$arg"' : arg).join('", "')}" -WindowStyle Hidden
-''';
-          
-          await Process.start(
-            'powershell',
-            ['-WindowStyle', 'Hidden', '-Command', psCommand],
-            mode: ProcessStartMode.detached,
-            runInShell: false,
-          );
-        } else {
-          // Em outros sistemas, usar o modo detached normal
-          await Process.start(path, args, mode: ProcessStartMode.detached);
-        }
+        await Process.start(path, args, mode: ProcessStartMode.detached);
       } catch (e) {
-        // Se falhar com PowerShell, tentar método alternativo
-        try {
-          if (Platform.isWindows) {
-            await Process.start(
-              'cmd',
-              ['/c', 'start', '/min', '"scrcpy"', path, ...args],
-              mode: ProcessStartMode.detached,
-              runInShell: false,
-            );
-          } else {
-            await Process.start(path, args, mode: ProcessStartMode.detached);
-          }
-        } catch (e2) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erro ao iniciar scrcpy: $e2')),
-          );
-        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao iniciar scrcpy: $e')),
+        );
       }
     } else {
       showDialog(
