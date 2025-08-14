@@ -1,0 +1,67 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build and Release Windows",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-Command",
+				"& { Write-Host 'Compilando aplicação Flutter para Windows...'; flutter clean; flutter pub get; flutter build windows --release; if ($LASTEXITCODE -eq 0) { Write-Host 'Build concluído com sucesso!'; $version = (Select-String -Path 'pubspec.yaml' -Pattern 'version: (.+)').Matches[0].Groups[1].Value; Write-Host \"Versão detectada: $version\"; $releaseDir = \"build/windows/x64/runner/Release\"; if (Test-Path $releaseDir) { Write-Host 'Criando arquivo ZIP do release...'; $zipName = \"scrcpy_launcher_v${version}_windows_x64.zip\"; Compress-Archive -Path \"$releaseDir/*\" -DestinationPath $zipName -Force; Write-Host \"Arquivo criado: $zipName\"; Write-Host 'Para criar o release no GitHub:'; Write-Host \"1. Vá para https://github.com/zonaro/list_extensions/releases/new\"; Write-Host \"2. Tag version: v$version\"; Write-Host \"3. Release title: scrcpy Launcher v$version\"; Write-Host '4. Anexe o arquivo ZIP criado'; Write-Host \"5. Adicione as notas de release\"; } else { Write-Error 'Diretório de build não encontrado!' } } else { Write-Error 'Falha no build!' } }"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Build Windows Release",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"-c",
+				"echo 'Compilando aplicação Flutter para Windows...' && flutter clean && flutter pub get && flutter build windows --release && echo 'Build concluído!' && echo 'Criando arquivo ZIP...' && cd build/windows/x64/runner/Release && powershell Compress-Archive -Path './*' -DestinationPath '../../../../../scrcpy_launcher_windows_x64.zip' -Force && cd ../../../../../ && echo 'Arquivo ZIP criado: scrcpy_launcher_windows_x64.zip' && echo 'Para criar o release no GitHub:' && echo '1. Vá para https://github.com/zonaro/list_extensions/releases/new' && echo '2. Anexe o arquivo scrcpy_launcher_windows_x64.zip' && echo '3. Adicione as notas de release'"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "1. Flutter Clean",
+			"type": "shell",
+			"command": "flutter",
+			"args": [
+				"clean"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Build Windows Release",
+			"type": "shell",
+			"command": "flutter",
+			"args": [
+				"build",
+				"windows",
+				"--release"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$dart"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Get Dependencies",
+			"type": "shell",
+			"command": "flutter",
+			"args": [
+				"pub",
+				"get"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

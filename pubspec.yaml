@@ -13,7 +13,7 @@ dependencies:
   archive: ^3.4.9
   path: ^1.8.3
   innerlibs:
-    path: ./innerlibs_dart
+    path: ../innerlibs_dart
 
 dev_dependencies:
   flutter_test:
